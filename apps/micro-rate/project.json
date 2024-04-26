@@ -1,7 +1,7 @@
 {
-  "name": "api-gateway",
+  "name": "micro-rate",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/api-gateway/src",
+  "sourceRoot": "apps/micro-rate/src",
   "projectType": "application",
   "tags": [],
   "targets": {
@@ -9,15 +9,14 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "api-gateway:build"
+        "buildTarget": "micro-rate:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "api-gateway:build:development"
+          "buildTarget": "micro-rate:build:development"
         },
         "production": {
-          "buildTarget": "api-gateway:build:production",
-          "generatePackageJson": true 
+          "buildTarget": "micro-rate:build:production"
         }
       }
     }
