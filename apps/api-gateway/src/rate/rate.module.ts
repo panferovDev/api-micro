@@ -1,20 +1,27 @@
 import { Module } from '@nestjs/common';
 import { RateController } from './rate.controller';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ClientsModule, RmqOptions, Transport } from '@nestjs/microservices';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    ClientsModule.register([
+    ConfigModule.forRoot(),
+
+    ClientsModule.registerAsync([
       {
         name: 'RATE_SERVICE',
-        transport: Transport.RMQ,
-        options: {
-          urls: ['amqp://guest:guest@localhost:5672'],
-          queue: 'rate_queue',
-          queueOptions: {
-            durable: false,
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        useFactory: (configService: ConfigService): RmqOptions => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [configService.get<string>('RABBITMQ_URL')],
+            queue: configService.get('QUEUE_NAME'),
+            queueOptions: {
+              durable: false,
+            },
           },
-        },
+        }),
       },
     ]),
   ],

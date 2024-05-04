@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+  output = env("GENERATED_CLIENT_PATH")
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Currency {
+  id             Int           @id @default(autoincrement())
+  code           String        @unique
+  name           String
+  symbol         String?
+  baseExchangeRates ExchangeRate[] @relation("BaseCurrency")
+  targetExchangeRates ExchangeRate[] @relation("TargetCurrency")
+}
+
+model ExchangeRate {
+  id             Int      @id @default(autoincrement())
+  baseCurrencyId Int
+  targetCurrencyId Int
+  rate           Float
+  baseCurrency   Currency @relation("BaseCurrency", fields: [baseCurrencyId], references: [id])
+  targetCurrency Currency @relation("TargetCurrency", fields: [targetCurrencyId], references: [id])
+}

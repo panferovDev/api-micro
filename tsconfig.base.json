@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@elbrus-api/contracts": ["libs/contracts/src/index.ts"],
+      "@elbrus-api/prisma-rate": ["libs/prisma-rate/"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
